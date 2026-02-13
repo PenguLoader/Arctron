@@ -1,0 +1,10 @@
+{
+  "name": "@arctron/host",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "dotnet build ./Arctron.Host/Arctron.Host.csproj -c Release",
+    "dev": "dotnet run --project ./Arctron.Host/Arctron.Host.csproj",
+    "clean": "dotnet clean ./Arctron.Host/Arctron.Host.csproj -c Release"
+  }
+}

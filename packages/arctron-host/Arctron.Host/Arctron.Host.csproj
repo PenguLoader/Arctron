@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<IsWindows>$([MSBuild]::IsOSPlatform('Windows'))</IsWindows>
+		<IsMacOS>$([MSBuild]::IsOSPlatform('OSX'))</IsMacOS>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework Condition="$(IsWindows)">net9.0-windows</TargetFramework>
+		<TargetFramework Condition="$(IsMacOS)">net9.0-macos</TargetFramework>
+		<RootNamespace>Arctron.Host</RootNamespace>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<IsAotCompatible>true</IsAotCompatible>
+		<InvariantGlobalization>true</InvariantGlobalization>
+		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+	</PropertyGroup>
+
+	<!--<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<OutputType>WinExe</OutputType>
+		<PublishAot>true</PublishAot>
+		<StripSymbols>true</StripSymbols>
+	</PropertyGroup>-->
+
+	<PropertyGroup Condition="$(IsWindows)">
+		<ApplicationManifest>Assets/app.manifest</ApplicationManifest>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Jint" Version="4.5.0" />
+	</ItemGroup>
+
+	<ItemGroup Condition="$(IsWindows)">
+		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2592.51">
+			<ExcludeAssets>compile</ExcludeAssets>
+		</PackageReference>
+		<PackageReference Include="Diga.WebView2.Interop.AOT" Version="1.0.4-preview" />
+		<PackageReference Include="Vanara.PInvoke.Kernel32" Version="5.0.0" />
+		<PackageReference Include="Vanara.PInvoke.User32" Version="5.0.0" />
+		<PackageReference Include="Vanara.PInvoke.DwmApi" Version="5.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Condition="$(IsWindows)" Remove="MacOS/**/*.cs" />
+		<Compile Condition="$(IsMacOS)" Remove="Windows/**/*.cs" />
+	</ItemGroup>
+
+</Project>
